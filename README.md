@@ -1,8 +1,8 @@
 # DevOps Challenge
 
-## Deploying Sample Rails 5 application with PostgreSQL, Redis, and Sidekiq using Docker and Docker Compose
+## Deploying Sample Rails 5 application with Unicorn, PostgreSQL, Redis, and Sidekiq using Docker and Docker Compose
 
-Change the Environmental Variables Passed to the Docker Containers in docker-compose.yml:
+#### Change the Environmental Variables Passed to the Docker Containers in docker-compose.yml: #### 
 
 - Rails Web Application Container
 ```
@@ -37,7 +37,7 @@ environment:
 ```
 - - - -
 
-Buidling the Docker Images and Starting the Containers from docker-compose.yml:
+#### Buidling the Docker Images and Starting the Containers from docker-compose.yml: ####
 
 To run in interactive mode:
 ```
