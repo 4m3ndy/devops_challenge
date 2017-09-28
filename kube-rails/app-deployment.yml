@@ -1,0 +1,63 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: devops
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: devops
+    spec:
+      containers:
+      - name: devops
+        image: 4m3ndy/devops-challenge
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8000
+        env:
+        - name: PRODUCTION_DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: PRODUCTION_DB_NAME
+        - name: PRODUCTION_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: PRODUCTION_DB_HOST
+        - name: PRODUCTION_DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: PRODUCTION_DB_USERNAME
+        - name: PRODUCTION_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: PRODUCTION_DB_PASSWORD
+        - name: PRODUCTION_DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: PRODUCTION_DB_PORT
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: SECRET_KEY_BASE
+        - name: LISTEN_ON
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: LISTEN_ON
+        - name: WORKER_PROCESSES
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: WORKER_PROCESSES
+        - name: JOB_WORKER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: JOB_WORKER_URL

@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:9.4.5
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: PRODUCTION_DB_NAME
+        - name: POSTGRES_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: PRODUCTION_DB_HOST
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: PRODUCTION_DB_USERNAME
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: PRODUCTION_DB_PASSWORD

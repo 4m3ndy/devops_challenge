@@ -51,5 +51,5 @@ docker-compose up -d
 
 Test the Running Rails Container:
 ```
-curl -v localhost:8000
+curl localhost:8000
 ```
