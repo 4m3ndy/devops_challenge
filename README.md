@@ -2,10 +2,9 @@
 
 ## Deploying Sample Rails 5 application with PostgreSQL, Redis, and Sidekiq
 
-* Change the Environmental Variables Passed to the Docker Containers:
+Change the Environmental Variables Passed to the Docker Containers:
 
 - Rails Web Application Container
-
 ```
 environment:
       RAILS_ENV: production
@@ -22,7 +21,6 @@ environment:
 ```
 
 - PostgreSQL DB Container
-
 ```
 environment:
       POSTGRES_DB: "dummy_db"
@@ -32,7 +30,6 @@ environment:
 ```
 
 - Sidekiq Container
-
 ```
 environment:
       JOB_WORKER_URL: redis://redis:6379/0
