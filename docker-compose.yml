@@ -1,0 +1,62 @@
+version: '3'
+services:
+  dummy:
+    build: .
+    links:
+      - postgres
+      - redis
+    volumes:
+      - .:/dummy
+    ports:
+      - '8000:8000'
+    environment:
+      RAILS_ENV: production
+      SECRET_KEY_BASE: asecuretokenwouldnormallygohere
+      PRODUCTION_DB_HOST: "postgres"
+      PRODUCTION_DB_PORT: 5432
+      PRODUCTION_DB_NAME: dummy_db 
+      PRODUCTION_DB_USERNAME: dummy_user
+      PRODUCTION_DB_PASSWORD: secretpassword
+      WORKER_PROCESSES: 1  
+      LISTEN_ON: 0.0.0.0:8000
+      JOB_WORKER_URL: redis://redis:6379/0
+      CACHE_URL: redis://redis:6379/0
+    depends_on:
+        - postgres
+        - redis
+    command: ["./my_init.sh", "bundle", "exec", "unicorn", "-c", "config/unicorn.rb"]
+
+  postgres:
+    image: postgres:9.4.5
+    environment:
+      POSTGRES_DB: "dummy_db"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_USER: "dummy_user"
+      POSTGRES_PASSWORD: "secretpassword"
+    ports:
+      - '5432:5432'
+    volumes:
+      - dummy-postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis:3.0.5
+    ports:
+      - '6379:6379'
+    volumes:
+      - dummy-redis:/var/lib/redis
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    links:
+      - postgres
+      - redis
+    volumes:
+      - .:/dummy
+    environment:
+      JOB_WORKER_URL: redis://redis:6379/0
+      CACHE_URL: redis://redis:6379/0
+
+volumes:
+  dummy-redis:
+  dummy-postgres:
